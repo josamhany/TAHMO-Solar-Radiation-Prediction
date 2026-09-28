@@ -1,34 +1,4 @@
-"""
-Member 4 - EO Preprocessing & Integration
-PB-07: EO preprocessing, quality checks and visualizations
-PB-08: EO + weather temporal integration and validation
 
-Scope:
-    - Uses the already-created EO_data.csv from PB-06.
-    - Does NOT download EO data.
-    - Does NOT train ML models.
-    - Keeps the existing weather dataframe unchanged except for adding EO features.
-
-Project schema verified from the team notebook:
-    EO data:
-        datetime
-        EO_radiation
-        station
-
-    Weather data includes:
-        timestamp
-        station
-        precipitation (mm)
-        radiation (W/m2)
-        relativehumidity (-)
-        temperature (degrees Celsius)
-        ...
-
-The EO source is hourly while the weather observations are finer-grained
-(15-minute observations in the project). Therefore, integration uses a
-time-aware nearest merge with a configurable tolerance rather than an exact
-timestamp merge.
-"""
 
 from pathlib import Path
 
@@ -49,7 +19,7 @@ WEATHER_REQUIRED_COLUMNS = {"timestamp", "station"}
 
 
 # ---------------------------------------------------------------------------
-# PB-07 - EO loading and quality analysis
+#  EO loading and quality analysis
 # ---------------------------------------------------------------------------
 
 def load_eo_data(filepath=EO_FILE):
@@ -204,7 +174,7 @@ def preprocess_eo_data(eo, interpolation_limit=4):
 
 
 # ---------------------------------------------------------------------------
-# PB-07 - Visualizations / EDA
+#   Visualizations / EDA
 # ---------------------------------------------------------------------------
 
 def plot_eo_distribution(eo, bins=50):
@@ -313,7 +283,7 @@ def plot_missing_values(eo):
 
 
 # ---------------------------------------------------------------------------
-# PB-08 - EO + Weather integration
+#  EO + Weather integration
 # ---------------------------------------------------------------------------
 
 def prepare_weather_for_integration(weather_df):
@@ -563,34 +533,3 @@ def run_member4_pipeline(weather_df, eo_filepath=EO_FILE):
     return eo_clean, integrated, report
 
 
-# ---------------------------------------------------------------------------
-# Example usage
-# ---------------------------------------------------------------------------
-
-if __name__ == "__main__":
-    # PB-06 has already created EO_data.csv.
-    #
-    # The main weather dataframe is produced by the earlier project steps.
-    # Replace `weather_df` below with the team's actual dataframe variable.
-    #
-    # Example:
-    #
-    # eo_clean, integrated_weather, report = run_member4_pipeline(
-    #     weather_df,
-    #     eo_filepath="EO_data.csv",
-    # )
-    #
-    # Then run visualizations:
-    #
-    # plot_missing_values(load_eo_data("EO_data.csv"))
-    # plot_eo_distribution(eo_clean)
-    # plot_eo_boxplot(eo_clean)
-    # plot_station_radiation(eo_clean)
-    # plot_eo_timeseries(eo_clean, station="TA00078")
-    # plot_integration_coverage(integrated_weather)
-    # plot_weather_vs_eo(integrated_weather)
-
-    print(
-        "Member 4 module ready. "
-        "Import run_member4_pipeline() from the main project notebook."
-    )
